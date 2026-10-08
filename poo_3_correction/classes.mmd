@@ -1,0 +1,42 @@
+classDiagram
+    class IHM {
+        -char[64] nomPort
+        -bool quitter
+        +IHM()
+        +~IHM()
+        +executer() void
+        -afficherMenu() void
+        -lireChoix() int
+        -saisirLigne(char* buffer, int taille) void
+        -envoyerMessage() void
+        -modifierPort() void
+    }
+
+    class PortSerie {
+        -int fd
+        +PortSerie()
+        +~PortSerie()
+        +ouvrir(char* nomPort) int
+        +fermer() void
+        +envoyer(char* trame, int nb) int
+        +recevoir(char* donnees, int nb) int
+        +getFd() int
+    }
+
+    class Trame {
+        -char[128] trame
+        -char[128] protocole
+        +Trame()
+        +construire(const char* message) void
+        +calculerChecksum(char* trame) unsigned char
+        +getTrame() char*
+    }
+
+    class main {
+        <<program>>
+        +main() int
+    }
+
+    main ..> IHM : utilise
+    IHM ..> PortSerie : utilise
+    IHM ..> Trame : utilise
